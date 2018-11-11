@@ -101,7 +101,7 @@
       computed: {
         currentState: function () {
           if (this.media1 === '' || this.media2 === '' || this.media3 === '') return estados.inicial;
-          if (this.somaDasUnidades >= 20.5) return estados.passou
+          if (this.somaDasUnidades >= 20.5) return estados.passou;
           if (this.pointsNeeded >= 10) return estados.recuperacao;
           return estados.provaFinal
         },
