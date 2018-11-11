@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Prova Final</title>
+  <script src="https://unpkg.com/vue"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+  <div id="app">
+    <section class="hero is-fullheight is-bold" v-bind:class="currentState.classes">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="subtitle" v-if="currentState.preTitle">
+            {{ currentState.preTitle }}
+          </h2>
+          <h1 class="title" v-if="currentState.titleText">
+            {{ currentState.titleText }}
+          </h1>
+          <h1 class="title" v-if="!currentState.titleText">
+            {{ pointsNeeded }} PONTO{{ pointsNeeded != 1 ? 'S' : '' }}
+          </h1>
+          <h2 class="subtitle" v-if="currentState.subtitleText">
+            {{ currentState.subtitleText }}
+          </h2>
+
+          <section class="level">
+            <div class="level-item has-text-centered">
+              <div class="field">
+                <div class="control">
+                  <input class="input is-large has-text-centered" type="number" placeholder="Unidade I" v-model="media1">
+                </div>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div class="field">
+                <div class="control">
+                  <input class="input is-large has-text-centered" type="number" placeholder="Unidade II" v-model="media2">
+                </div>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div class="field">
+                <div class="control">
+                  <input class="input is-large has-text-centered" type="number" placeholder="Unidade III" v-model="media3">
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section>
+
+    </section>
+  </div>
+
+  <script>
+    const estados = {
+      inicial: {
+        titleText: 'Vamos lá!',
+        subtitleText: 'Digite as suas médias de cada unidade para começar',
+        classes: {
+          'is-primary': true
+        }
+      },
+      passou: {
+        titleText: 'Parabéns!',
+        subtitleText: 'A soma das suas médias é maior ou igual a 20,5. Você passou direto!',
+        classes: {
+          'is-success': true
+        }
+      },
+      recuperacao: {
+        titleText: 'Eita!',
+        subtitleText: 'Você já está na recuperação',
+        classes: {
+          'is-danger': true
+        }
+      },
+      provaFinal: {
+        preTitle: 'Você precisa de',
+        subtitleText: 'na prova final.',
+        classes: {
+          'is-warning': true
+        }
+      }
+    };
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        media1: '',
+        media2: '',
+        media3: ''
+      },
+      computed: {
+        currentState: function () {
+          if (this.media1 === '' || this.media2 === '' || this.media3 === '') return estados.inicial;
+          if (this.somaDasUnidades >= 20.5) return estados.passou
+          if (this.pointsNeeded >= 10) return estados.recuperacao;
+          return estados.provaFinal
+        },
+        pointsNeeded: function () {
+          return Math.round((50 - ((this.somaDasUnidades/3)*7))/3)
+        },
+        somaDasUnidades: function () {
+          return parseInt(this.media1) + parseInt(this.media2) + parseInt(this.media3);
+        }
+      }
+    })
+  </script>
+</body>
+</html>
