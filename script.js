@@ -38,16 +38,17 @@ const app = new Vue({
   },
   computed: {
     currentState: function () {
+      console.log(this.somaDasUnidades);
       if (this.media1 === '' || this.media2 === '' || this.media3 === '') return estados.inicial;
       if (this.somaDasUnidades >= 20.5) return estados.passou;
       if (this.pointsNeeded >= 10) return estados.recuperacao;
-      return estados.provaFinal
+      return estados.provaFinal;
     },
     pointsNeeded: function () {
-      return Math.round((50 - ((this.somaDasUnidades/3)*7))/3)
+      return Math.round(((50 - ((this.somaDasUnidades/3)*7))/3)*10)/10
     },
     somaDasUnidades: function () {
-      return parseInt(this.media1) + parseInt(this.media2) + parseInt(this.media3);
+      return parseFloat(this.media1) + parseFloat(this.media2) + parseFloat(this.media3);
     }
   }
 })
